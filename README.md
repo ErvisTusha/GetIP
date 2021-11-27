@@ -1,2 +1,2 @@
 # CTF-IP
-CTF-IP
+GET CTF IP 
