@@ -108,5 +108,5 @@ Distributed under the MIT License. See `LICENSE` file for more information.
 ---
 
 <p align="center">
-  Made with ❤️ by Ervis Tusha
+  Made with ❤️ by <a href="https://www.ervistusha.com">Ervis Tusha</a
 </p>
