@@ -36,7 +36,7 @@ CYAN='\033[0;36m'   # Cyan
 YELLOW='\033[1;33m' # Yellow
 
 # Constants
-VERSION="1.1.0"
+VERSION="1.1.5"
 AUTHOR="Ervis Tusha"
 SCRIPT=$(basename "$0")
 RAW_OUTPUT=false
@@ -241,6 +241,13 @@ UPDATE_SCRIPT() {
         echo -e "${YELLOW}${BOLD}getip is not installed. Use 'install' first.${NC}\n"
         exit 1
     fi
+    
+    # Check if we have sudo access
+    if ! sudo -v &>/dev/null; then
+        echo -e "${RED}${BOLD}Error: Sudo access required for update${NC}\n"
+        exit 1
+    fi
+    
     TEMP_FILE=$(mktemp)
     if ! command -v curl &>/dev/null; then
         echo -e "${RED}${BOLD}Error:${NC} ${BOLD}curl${NC} ${RED}command not found. Please install curl package\n"
@@ -274,6 +281,13 @@ UNINSTALL_SCRIPT() {
         echo -e "${YELLOW}${BOLD}getip is not installed${NC}\n"
         exit 0
     fi
+    
+    # Check if we have sudo access
+    if ! sudo -v &>/dev/null; then
+        echo -e "${RED}${BOLD}Error: Sudo access required for uninstallation${NC}\n"
+        exit 1
+    fi
+    
     if sudo rm /usr/local/bin/getip; then
         echo -e "${GREEN}${BOLD}Successfully uninstalled getip${NC}\n"
     else
