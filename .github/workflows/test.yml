@@ -7,15 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install BATS
-        run: |
-          git clone https://github.com/bats-core/bats-core.git
-          cd bats-core
-          sudo ./install.sh /usr/local
-      - name: Install BATS helpers
-        run: |
-          mkdir -p tests/test_helper
-          git clone https://github.com/bats-core/bats-support tests/test_helper/bats-support
-          git clone https://github.com/bats-core/bats-assert tests/test_helper/bats-assert
       - name: Run tests
-        run: bats tests/*.bats
+        run: bash tests/test_getip.sh
