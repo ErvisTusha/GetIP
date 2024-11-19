@@ -1,4 +1,4 @@
-# 🌐 CTF-IP - Network Interface IP Tool
+# 🌐 Get-IP - Network Interface IP Tool
 
 ![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
