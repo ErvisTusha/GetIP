@@ -36,7 +36,7 @@ CYAN='\033[0;36m'   # Cyan
 YELLOW='\033[1;33m' # Yellow
 
 # Constants
-VERSION="1.1.5"
+VERSION="1.2.0"
 AUTHOR="Ervis Tusha"
 SCRIPT=$(basename "$0")
 RAW_OUTPUT=false
@@ -298,33 +298,33 @@ UNINSTALL_SCRIPT() {
 
 # Process command line arguments
 case "$1" in
--h | --help)
-    SHOW_VERSION
-    SHOW_HELP
-    exit 0
-    ;;
--v | --version)
-    SHOW_VERSION
-    exit 0
-    ;;
--l | --list)
-    SHOW_VERSION
-    LIST_INTERFACES
-    exit 0
-    ;;
---raw)
-    CHECK_DEPENDENCIES
-    RAW_OUTPUT=true
-    if [ -n "$2" ]; then
-        GET_INTERFACE_IP "$2"
-    else
+    -h | --help)
         SHOW_VERSION
-        echo "----------------------------------------------------------------"
-        echo -e "\n         ${RED}${BOLD}Error:${NC} ${BOLD}Missing interface argument\n"
-        echo "----------------------------------------------------------------"
         SHOW_HELP
-    fi
-    ;;
+        exit 0
+        ;;
+    -v | --version)
+        SHOW_VERSION
+        exit 0
+        ;;
+    -l | --list)
+        SHOW_VERSION
+        LIST_INTERFACES
+        exit 0
+        ;;
+    --raw)
+        CHECK_DEPENDENCIES
+        RAW_OUTPUT=true
+        if [ -n "$2" ]; then
+            GET_INTERFACE_IP "$2"
+        else
+            SHOW_VERSION
+            echo "----------------------------------------------------------------"
+            echo -e "\n         ${RED}${BOLD}Error:${NC} ${BOLD}Missing interface argument\n"
+            echo "----------------------------------------------------------------"
+            SHOW_HELP
+        fi
+        ;;
     "")
         SHOW_VERSION
         LIST_INTERFACES
@@ -346,40 +346,40 @@ case "$1" in
         INTERFACE=""
         SHOW_BOTH=true  # New default behavior
 
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-        -4)
-            IP_VERSION="4"
-            SHOW_BOTH=false
-            shift
-            ;;
-        -6)
-            IP_VERSION="6"
-            SHOW_BOTH=false
-            shift
-            ;;
-        --raw)
-            RAW_OUTPUT=true
-            shift
-            ;;
-        *)
-            INTERFACE="$1"
-            shift
-            ;;
-        esac
-    done
+        while [[ $# -gt 0 ]]; do
+            case "$1" in
+                -4)
+                    IP_VERSION="4"
+                    SHOW_BOTH=false
+                    shift
+                    ;;
+                -6)
+                    IP_VERSION="6"
+                    SHOW_BOTH=false
+                    shift
+                    ;;
+                --raw)
+                    RAW_OUTPUT=true
+                    shift
+                    ;;
+                *)
+                    INTERFACE="$1"
+                    shift
+                    ;;
+            esac
+        done
 
-    if [ -n "$INTERFACE" ] && ip link show "$INTERFACE" >/dev/null 2>&1; then
-        [ "$RAW_OUTPUT" = false ] && SHOW_VERSION
-        GET_INTERFACE_IP "$INTERFACE" "$SHOW_BOTH" "$IP_VERSION"
-    else
-        SHOW_VERSION
-        echo "----------------------------------------------------------------"
-        echo -e "\n${RED}${BOLD}Error:${NC} ${BOLD}Invalid interface: $INTERFACE"
-        echo -e "\n----------------------------------------------------------------"
-        LIST_INTERFACES
-        SHOW_HELP
-        exit 1
-    fi
-    ;;
+        if [ -n "$INTERFACE" ] && ip link show "$INTERFACE" >/dev/null 2>&1; then
+            [ "$RAW_OUTPUT" = false ] && SHOW_VERSION
+            GET_INTERFACE_IP "$INTERFACE" "$SHOW_BOTH" "$IP_VERSION"
+        else
+            SHOW_VERSION
+            echo "----------------------------------------------------------------"
+            echo -e "\n${RED}${BOLD}Error:${NC} ${BOLD}Invalid interface: $INTERFACE"
+            echo -e "\n----------------------------------------------------------------"
+            LIST_INTERFACES
+            SHOW_HELP
+            exit 1
+        fi
+        ;;
 esac
