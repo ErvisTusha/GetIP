@@ -213,7 +213,15 @@ INSTALL_SCRIPT() {
         echo -e "${YELLOW}${BOLD}getip is already installed. Use 'update' to upgrade.${NC}\n"
         exit 0
     fi
-    if sudo cp "$0" /usr/local/bin/getip && sudo chmod +x /usr/local/bin/getip; then
+    
+    # Check if we have sudo access
+    if ! sudo -v &>/dev/null; then
+        echo -e "${RED}${BOLD}Error: Sudo access required for installation${NC}\n"
+        exit 1
+    fi
+    
+    # Use install command for secure copy with proper permissions
+    if sudo install -m 0755 -o root -g root "$0" /usr/local/bin/getip; then
         echo -e "${GREEN}${BOLD}Successfully installed getip to /usr/local/bin/getip${NC}"
         echo -e "You can now run 'getip' from anywhere\n"
     else
