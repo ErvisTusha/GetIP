@@ -6,12 +6,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3  # Upgrade to v3
-      - name: Source hosts.sh
-        run: |
-          chmod +x ./hosts.sh
-          . ./hosts.sh
+      - uses: actions/checkout@v2
       - name: Run tests
-        run: |
-          chmod +x tests/test_hosts.sh
-          bash tests/test_hosts.sh
+        run: bash tests/test_getip.sh
